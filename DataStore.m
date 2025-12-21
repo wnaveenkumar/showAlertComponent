@@ -23,7 +23,7 @@ static NSString * const kDSLoanAgreementGeneratedKey = @"DS_IsLoanAgreementGener
 
 static NSString * const kDSKey_emi = @"DataStore.emi";
 static NSString * const kDSKey_loanEMI = @"DataStore.loanEMI";
-static NSString * const kDSKey_processingFee = @"DataStore.processingFee"; // <<< ADD THIS LINE
+static NSString * const kDSKey_processingFee = @"DataStore.processingFee";
 
 
 
@@ -54,10 +54,10 @@ static NSString * const kDSKey_offerLetterFileURL = @"DataStore.offerLetterFileU
 
 @interface DataStore ()
 // Internal storage for synonym properties
-@property (nonatomic, strong) NSDecimalNumber *_emi;
-@property (nonatomic, strong) NSDecimalNumber *_loanEMI;
-@property (nonatomic, strong) NSDecimalNumber *_interestRateAnnual;
-@property (nonatomic, strong) NSDecimalNumber *_loanInterestRate;
+@property (nonatomic, strong) NSDecimalNumber *emiStorage;
+@property (nonatomic, strong) NSDecimalNumber *loanEMIStorage;
+@property (nonatomic, strong) NSDecimalNumber *interestRateAnnualStorage;
+@property (nonatomic, strong) NSDecimalNumber *loanInterestRateStorage;
 @end
 
 @implementation DataStore
@@ -66,40 +66,40 @@ static NSString * const kDSKey_offerLetterFileURL = @"DataStore.offerLetterFileU
 
 // Synchronize emi and loanEMI
 - (void)setEmi:(NSDecimalNumber *)emi {
-    __emi = emi;
-    __loanEMI = emi; // Keep synonym in sync
+    _emiStorage = emi;
+    _loanEMIStorage = emi; // Keep synonym in sync
 }
 
 - (NSDecimalNumber *)emi {
-    return __emi;
+    return _emiStorage;
 }
 
 - (void)setLoanEMI:(NSDecimalNumber *)loanEMI {
-    __loanEMI = loanEMI;
-    __emi = loanEMI; // Keep synonym in sync
+    _loanEMIStorage = loanEMI;
+    _emiStorage = loanEMI; // Keep synonym in sync
 }
 
 - (NSDecimalNumber *)loanEMI {
-    return __loanEMI;
+    return _loanEMIStorage;
 }
 
 // Synchronize interestRateAnnual and loanInterestRate
 - (void)setInterestRateAnnual:(NSDecimalNumber *)interestRateAnnual {
-    __interestRateAnnual = interestRateAnnual;
-    __loanInterestRate = interestRateAnnual; // Keep synonym in sync
+    _interestRateAnnualStorage = interestRateAnnual;
+    _loanInterestRateStorage = interestRateAnnual; // Keep synonym in sync
 }
 
 - (NSDecimalNumber *)interestRateAnnual {
-    return __interestRateAnnual;
+    return _interestRateAnnualStorage;
 }
 
 - (void)setLoanInterestRate:(NSDecimalNumber *)loanInterestRate {
-    __loanInterestRate = loanInterestRate;
-    __interestRateAnnual = loanInterestRate; // Keep synonym in sync
+    _loanInterestRateStorage = loanInterestRate;
+    _interestRateAnnualStorage = loanInterestRate; // Keep synonym in sync
 }
 
 - (NSDecimalNumber *)loanInterestRate {
-    return __loanInterestRate;
+    return _loanInterestRateStorage;
 }
 
 + (instancetype)sharedInstance {

@@ -55,8 +55,6 @@
 
     UITapGestureRecognizer *taploanShowDetailsButton = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loanShowDetailsButtonTapped:)];
     [self.loanShowDetailsButton addGestureRecognizer:taploanShowDetailsButton];
-
-;
     
     // Safety: ensure the accept button triggers the action even if IB connection is missing
     [self.acceptButton addTarget:self action:@selector(acceptButtonOnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -123,11 +121,6 @@
 
     self.bankNameLabel.text = (store.bankName.length > 0) ? store.bankName : @"";
     self.applicationStatusLabel.text = (store.applicationStatus.length > 0) ? store.applicationStatus : @"";
-    
-    
-    
-    
-    
 }
 
 #pragma mark - UI helpers
