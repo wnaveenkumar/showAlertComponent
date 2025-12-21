@@ -90,7 +90,6 @@
     } else {
         self.loanAmountLabel.text = @"";
         self.loanAmountLabelImp.text = @"";
-        
     }
 
     NSDecimalNumber *interest = store.interestRateAnnual ?: store.loanInterestRate;
@@ -113,10 +112,8 @@
     NSDecimalNumber *emiValue = store.loanEMI ?: store.emi;
     if (emiValue != nil) {
         self.loanEMILabel.text = [self formattedCurrencyStringFromDecimal:emiValue];
-       
     } else {
         self.loanEMILabel.text = @"";
-       
     }
 
     self.bankNameLabel.text = (store.bankName.length > 0) ? store.bankName : @"";

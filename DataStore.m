@@ -53,14 +53,15 @@ static NSString * const kDSKey_offerLetterFileName = @"DataStore.offerLetterFile
 static NSString * const kDSKey_offerLetterFileURL = @"DataStore.offerLetterFileURL";
 
 @interface DataStore ()
-// Internal storage for synonym properties
-@property (nonatomic, strong) NSDecimalNumber *emiStorage;
-@property (nonatomic, strong) NSDecimalNumber *loanEMIStorage;
-@property (nonatomic, strong) NSDecimalNumber *interestRateAnnualStorage;
-@property (nonatomic, strong) NSDecimalNumber *loanInterestRateStorage;
 @end
 
 @implementation DataStore
+
+// Synthesize with custom backing storage for synonym properties
+@synthesize emi = _emiStorage;
+@synthesize loanEMI = _loanEMIStorage;
+@synthesize interestRateAnnual = _interestRateAnnualStorage;
+@synthesize loanInterestRate = _loanInterestRateStorage;
 
 #pragma mark - Custom Property Accessors (Synchronize Synonyms)
 
