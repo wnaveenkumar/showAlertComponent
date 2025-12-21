@@ -52,8 +52,55 @@ static NSString * const kDSKey_salarySlipFileURL = @"DataStore.salarySlipFileURL
 static NSString * const kDSKey_offerLetterFileName = @"DataStore.offerLetterFileName";
 static NSString * const kDSKey_offerLetterFileURL = @"DataStore.offerLetterFileURL";
 
+@interface DataStore ()
+// Internal storage for synonym properties
+@property (nonatomic, strong) NSDecimalNumber *_emi;
+@property (nonatomic, strong) NSDecimalNumber *_loanEMI;
+@property (nonatomic, strong) NSDecimalNumber *_interestRateAnnual;
+@property (nonatomic, strong) NSDecimalNumber *_loanInterestRate;
+@end
 
 @implementation DataStore
+
+#pragma mark - Custom Property Accessors (Synchronize Synonyms)
+
+// Synchronize emi and loanEMI
+- (void)setEmi:(NSDecimalNumber *)emi {
+    __emi = emi;
+    __loanEMI = emi; // Keep synonym in sync
+}
+
+- (NSDecimalNumber *)emi {
+    return __emi;
+}
+
+- (void)setLoanEMI:(NSDecimalNumber *)loanEMI {
+    __loanEMI = loanEMI;
+    __emi = loanEMI; // Keep synonym in sync
+}
+
+- (NSDecimalNumber *)loanEMI {
+    return __loanEMI;
+}
+
+// Synchronize interestRateAnnual and loanInterestRate
+- (void)setInterestRateAnnual:(NSDecimalNumber *)interestRateAnnual {
+    __interestRateAnnual = interestRateAnnual;
+    __loanInterestRate = interestRateAnnual; // Keep synonym in sync
+}
+
+- (NSDecimalNumber *)interestRateAnnual {
+    return __interestRateAnnual;
+}
+
+- (void)setLoanInterestRate:(NSDecimalNumber *)loanInterestRate {
+    __loanInterestRate = loanInterestRate;
+    __interestRateAnnual = loanInterestRate; // Keep synonym in sync
+}
+
+- (NSDecimalNumber *)loanInterestRate {
+    return __loanInterestRate;
+}
 
 + (instancetype)sharedInstance {
     static DataStore *shared = nil;
@@ -161,12 +208,20 @@ static NSString * const kDSKey_offerLetterFileURL = @"DataStore.offerLetterFileU
     if (self.loanAmount != nil) {
         [ud setObject:[self.loanAmount stringValue] forKey:kDSLoanAmountKey];
     }
+    
+    // Save EMI values using new keys only
     if (self.emi != nil) {
         [ud setObject:[self.emi stringValue] forKey:kDSKey_emi];
+    } else {
+        [ud removeObjectForKey:kDSKey_emi];
     }
+    
     if (self.loanEMI != nil) {
         [ud setObject:[self.loanEMI stringValue] forKey:kDSKey_loanEMI];
+    } else {
+        [ud removeObjectForKey:kDSKey_loanEMI];
     }
+    
     if (self.interestRateAnnual != nil) {
         [ud setObject:[self.interestRateAnnual stringValue] forKey:kDSLoanInterestKey];
     } else if (self.loanInterestRate != nil) {
@@ -183,6 +238,8 @@ static NSString * const kDSKey_offerLetterFileURL = @"DataStore.offerLetterFileU
     }
     if (self.processingFee) {
         [ud setObject:[self.processingFee stringValue] forKey:kDSKey_processingFee];
+    } else {
+        [ud removeObjectForKey:kDSKey_processingFee];
     }
 
     // Flags
