@@ -23,7 +23,7 @@ static NSString * const kDSLoanAgreementGeneratedKey = @"DS_IsLoanAgreementGener
 
 static NSString * const kDSKey_emi = @"DataStore.emi";
 static NSString * const kDSKey_loanEMI = @"DataStore.loanEMI";
-static NSString * const kDSKey_processingFee = @"DataStore.processingFee"; // <<< ADD THIS LINE
+static NSString * const kDSKey_processingFee = @"DataStore.processingFee";
 
 
 
