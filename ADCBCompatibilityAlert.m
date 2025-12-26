@@ -31,8 +31,13 @@
         // Add "OK" button (secondary)
         [alert addButtonWithTitle:@"OK"];
         
-        // Set icon to warning
-        [alert setIcon:[NSImage imageNamed:NSImageNameCaution]];
+        // Set icon to warning (use NSImageNameCaution for macOS 11+, fallback for earlier versions)
+        if (@available(macOS 11.0, *)) {
+            [alert setIcon:[NSImage imageNamed:NSImageNameCaution]];
+        } else {
+            // Fallback for macOS 10.15 and earlier
+            [alert setIcon:[NSImage imageNamed:NSImageNameStatusUnavailable]];
+        }
         
         // Run modal and handle response
         NSModalResponse response = [alert runModal];
@@ -89,18 +94,44 @@
  */
 + (UIViewController *)topMostViewController {
     UIViewController *rootViewController = nil;
-    
-    // Try to get the root view controller from the key window
     UIWindow *keyWindow = nil;
-    for (UIWindow *window in [UIApplication sharedApplication].windows) {
-        if (window.isKeyWindow) {
-            keyWindow = window;
-            break;
-        }
-    }
     
-    if (!keyWindow && [UIApplication sharedApplication].windows.count > 0) {
-        keyWindow = [UIApplication sharedApplication].windows[0];
+    // iOS 13+ uses UIWindowScene
+    if (@available(iOS 13.0, *)) {
+        NSSet<UIScene *> *connectedScenes = [UIApplication sharedApplication].connectedScenes;
+        for (UIScene *scene in connectedScenes) {
+            if ([scene isKindOfClass:[UIWindowScene class]]) {
+                UIWindowScene *windowScene = (UIWindowScene *)scene;
+                for (UIWindow *window in windowScene.windows) {
+                    if (window.isKeyWindow) {
+                        keyWindow = window;
+                        break;
+                    }
+                }
+                if (keyWindow) break;
+                
+                // Fallback to first window if no key window
+                if (!keyWindow && windowScene.windows.count > 0) {
+                    keyWindow = windowScene.windows[0];
+                }
+                if (keyWindow) break;
+            }
+        }
+    } else {
+        // Pre-iOS 13 fallback
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        for (UIWindow *window in [UIApplication sharedApplication].windows) {
+            if (window.isKeyWindow) {
+                keyWindow = window;
+                break;
+            }
+        }
+        
+        if (!keyWindow && [UIApplication sharedApplication].windows.count > 0) {
+            keyWindow = [UIApplication sharedApplication].windows[0];
+        }
+#pragma clang diagnostic pop
     }
     
     rootViewController = keyWindow.rootViewController;
