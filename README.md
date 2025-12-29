@@ -35,6 +35,8 @@ The `textField:shouldChangeCharactersInRange:replacementString:` delegate method
 - Backspace/delete operations are always allowed
 
 ```objective-c
+#define MAX_LENGTH 10
+
 - (BOOL)textField:(UITextField *)textField 
 shouldChangeCharactersInRange:(NSRange)range 
 replacementString:(NSString *)string {

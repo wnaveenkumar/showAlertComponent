@@ -15,6 +15,15 @@
 
 #define MAX_LENGTH 10
 
+// Static character set for efficient numeric validation
+static NSCharacterSet *numbersOnlyCharacterSet;
+
++ (void)initialize {
+    if (self == [MobileNumberViewController class]) {
+        numbersOnlyCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -42,10 +51,9 @@
     }
     
     // Check if the replacement string contains only numeric characters
-    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
     NSCharacterSet *characterSetFromString = [NSCharacterSet characterSetWithCharactersInString:string];
     
-    if (![numbersOnly isSupersetOfSet:characterSetFromString]) {
+    if (![numbersOnlyCharacterSet isSupersetOfSet:characterSetFromString]) {
         // String contains non-numeric characters, reject the change
         return NO;
     }
@@ -67,6 +75,16 @@
  * Uncomment this method and comment out the above method to use this approach
  */
 /*
+// Static predicate for efficient regex validation
+static NSPredicate *numberPredicate;
+
++ (void)initialize {
+    if (self == [MobileNumberViewController class]) {
+        NSString *numberRegex = @"^[0-9]+$";
+        numberPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", numberRegex];
+    }
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
     // Allow backspace/delete
@@ -75,9 +93,6 @@
     }
     
     // Check if the replacement string contains only numeric characters using regex
-    NSString *numberRegex = @"^[0-9]+$";
-    NSPredicate *numberPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", numberRegex];
-    
     if (![numberPredicate evaluateWithObject:string]) {
         // String contains non-numeric characters, reject the change
         return NO;
