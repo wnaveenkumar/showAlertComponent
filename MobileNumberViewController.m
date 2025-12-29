@@ -72,18 +72,21 @@ static NSCharacterSet *numbersOnlyCharacterSet;
 
 /**
  * Alternative implementation using NSPredicate for numeric validation
- * Uncomment this method and comment out the above method to use this approach
+ * To use this approach:
+ * 1. Comment out the main textField:shouldChangeCharactersInRange:replacementString: method above
+ * 2. Uncomment the alternative version below
+ * 3. Replace the initialize method with the one that creates numberPredicate instead
  */
 /*
-// Static predicate for efficient regex validation
-static NSPredicate *numberPredicate;
-
-+ (void)initialize {
-    if (self == [MobileNumberViewController class]) {
-        NSString *numberRegex = @"^[0-9]+$";
-        numberPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", numberRegex];
-    }
-}
+// For the alternative NSPredicate approach, replace the initialize method with this:
+// static NSPredicate *numberPredicate;
+// 
+// + (void)initialize {
+//     if (self == [MobileNumberViewController class]) {
+//         NSString *numberRegex = @"^[0-9]+$";
+//         numberPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", numberRegex];
+//     }
+// }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     

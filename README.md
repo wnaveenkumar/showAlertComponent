@@ -37,6 +37,15 @@ The `textField:shouldChangeCharactersInRange:replacementString:` delegate method
 ```objective-c
 #define MAX_LENGTH 10
 
+// Static character set for efficient numeric validation
+static NSCharacterSet *numbersOnlyCharacterSet;
+
++ (void)initialize {
+    if (self == [YourViewController class]) {
+        numbersOnlyCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    }
+}
+
 - (BOOL)textField:(UITextField *)textField 
 shouldChangeCharactersInRange:(NSRange)range 
 replacementString:(NSString *)string {
@@ -46,11 +55,10 @@ replacementString:(NSString *)string {
         return YES;
     }
     
-    // Check if numeric only
-    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    // Check if numeric only using static character set
     NSCharacterSet *characterSetFromString = [NSCharacterSet characterSetWithCharactersInString:string];
     
-    if (![numbersOnly isSupersetOfSet:characterSetFromString]) {
+    if (![numbersOnlyCharacterSet isSupersetOfSet:characterSetFromString]) {
         return NO;
     }
     
