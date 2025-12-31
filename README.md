@@ -1,5 +1,7 @@
 # showAlertComponent
 
+> **Note**: This repository has evolved to focus on professional email analysis and guidance. The name reflects its original intended purpose but the current content provides educational resources for business communication.
+
 ## Professional Email Analysis and Guidance
 
 This repository provides analysis and guidance for writing professional emails, with a focus on formal business communications such as service contract terminations.

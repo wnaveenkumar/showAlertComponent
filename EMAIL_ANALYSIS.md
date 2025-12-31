@@ -59,11 +59,11 @@ I apologize for any inconvenience this may cause and appreciate your understandi
 Thank you for your cooperation.
 
 Sincerely,
-W Naveen Kumar
-Senior Developer
-US Credit Bank Project
-Employee ID: [Your ID]
-Contact: [Phone/Email]
+[Your Full Name]
+[Your Position]
+[Project Name]
+Employee ID: [Your Employee ID]
+Contact: [Your Phone/Email]
 Date: [Current Date]
 ```
 
